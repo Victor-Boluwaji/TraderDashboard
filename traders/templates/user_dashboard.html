@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+    <style>
+        body {
+            background-color: #E0ECF8; 
+            color: black;
+        }
+        
+    </style>
+<body>
+    <h2>Welcome {{name}}</h2>
+    <p>Balance: ${{ balance }}</p>
+    <canvas id="myChart"></canvas>
+
+    <script>
+        var x_values_json = JSON.parse('{{ x_values_json|escapejs }}');
+        var y_values_json = JSON.parse('{{ y_values_json|escapejs }}');
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: x_values_json,
+                datasets: [{
+                    label: 'Profit/Loss',
+                    data: y_values_json,
+                    backgroundColor: 'rgba(138, 43, 226, 0.5)',
+                    borderColor: 'rgb(138, 43, 226)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Timestamp'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Profit/Loss'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

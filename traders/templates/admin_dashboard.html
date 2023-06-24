@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+        body {
+            background-color: #E0ECF8; 
+            color: black;
+        }
+    </style>
+    <script>
+        function toggleTransactions(traderId) {
+            var transactionList = document.getElementById('transactions-' + traderId);
+            transactionList.classList.toggle('hidden');
+        }
+    </script>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+
+    {% for trader_data in traders %}
+    <h2>Trader Name: {{ trader_data.trader }}</h2>
+    <p>Profit: ${{ trader_data.profit }}</p>
+    <p>Loss: ${{ trader_data.loss }}</p>
+    <p>Balance: ${{ trader_data.balance }}</p>
+    <select onchange="toggleTransactions('{{ trader_data.trader }}');">
+        <option value="">View All</option>
+        <option value="1">View none</option>
+    </select>
+    <ul id="transactions-{{ trader_data.trader }}">
+        {% for transaction in trader_data.transactions %}
+        <li>{{ transaction.timestamp }} - {{ transaction.amount }}</li>
+        {% endfor %}
+    </ul>
+    
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends 'basic.html' %}
+{% block title %}blog{% endblock title %}
+{% block body %}
+{% load static %}
+<section id="services" class="services">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-title">
+        <h2>Welcome to my Blog</h2>
+      </div>
+
+      <div class="row">
+        {% for article in page_obj %}
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+          <div class="icon-box iconbox-blue">
+            <div class="col-lg-4">
+                <img src="{{article.urlToImage}}" class="img-fluid" alt="no-image">
+              </div>
+
+            <h4><a href="">{{article.title}}</a></h4>
+            <p>{{article.description}}</p>
+            <p> posted By : <b> {{article.author}}</b></p>
+            <p> posted on : <b> {{article.publishedAt}}</b></p>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+
+      <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">&lsaquo; prev</a>
+            {% endif %}
+
+            <span class="current-page">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next &rsaquo;</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    </div>
+  </section>
+
+  {% endblock body %}
